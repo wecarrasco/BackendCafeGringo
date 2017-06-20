@@ -43,6 +43,13 @@ exports.getEmpleado = {
   }
 }
 
+exports.reporte={
+  handler: function(request, reply){
+    var empleados = empleado.find({username: request.params.username});
+    reply(empleados);
+  }
+}
+
 exports.updateEmpleado = {
   handler: function(request, reply){
     empleado.update({username: request.params.username},
