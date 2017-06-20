@@ -204,6 +204,7 @@ exports.gethoras ={
             var horaSalida = hrOuts[index];
             if (hrOuts.length != 0) {
               if (moment(fecha).isSame(horaSalida, 'year') && moment(fecha).isSame(horaSalida, 'month') && moment(fecha).isSame(horaSalida, 'day')) {
+                console.log("Fecha: "+fecha+"\nhoraSalida: "+horaSalida);
                 mandarSalida = true;
               }
             }
@@ -220,6 +221,7 @@ exports.gethoras ={
             if (!mandarSalida) {
               for (var i = 0; i < hrOuts.length; i++) {
                 if (moment(fecha).isSame(hrOuts[i], 'year') && moment(fecha).isSame(hrOuts[i], 'month') && moment(fecha).isSame(hrOuts[i], 'day')) {
+                  console.log("fecha: "+fecha+"\nhrOuts["+i+"]: "+hrOuts[i]);
                   horaSalida = hrOuts[i];
                   mandarSalida = true;
                 }
