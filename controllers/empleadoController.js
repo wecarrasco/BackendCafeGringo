@@ -77,6 +77,35 @@ exports.updateEmpleado = {
   }
 }
 
+exports.updateEmpleado2 = {
+  handler: function(req, res){
+    console.log("entra a la funcion");
+    empleado.findOne({username: req.params.username}, function(err, Empleado){
+      console.log("Nombre: "+Empleado.Nombre);
+      console.log("Param: "+req.params.username);
+      console.log("Payload: "+req.payload.Nombre);
+      if (err) {
+        return res("error...:(");
+      }else{
+        Empleado.Nombre = req.payload.Nombre || Empleado.Nombre;
+        Empleado.celular = req.payload.celular || Empleado.celular;
+        Empleado.email = req.payload.email || Empleado.email;
+        Empleado.genero = req.payload.genero || Empleado.genero;
+        Empleado.username = req.payload.username || Empleado.username;
+        Empleado.pass = String(SHA3(req.payload.pass)) || Empleado.pass;
+
+
+        Empleado.save(function(err, Empleado){
+          if (err) {
+            return res("error 2... :(");
+          }
+          return res(Empleado);
+        });
+      }
+    });
+  }
+}
+
 exports.deleteEmpleado = {
   handler: function(request, reply){
     empleado.find({username: request.params.username}).remove().exec();
