@@ -79,9 +79,13 @@ exports.updateEmpleado = {
 
 exports.updateEmpleado2 = {
   handler: function(req, res){
+    console.log("entra a la funcion");
     empleado.findOne({username: req.params.username}, function(err, Empleado){
+      console.log("Nombre: "+Empleado.Nombre);
+      console.log("Param: "+req.params.username);
+      console.log("Payload: "+req.payload.Nombre);
       if (err) {
-        reply("error...:(");
+        return res("error...:(");
       }else{
         Empleado.Nombre = req.payload.Nombre || Empleado.Nombre;
         Empleado.celular = req.payload.celular || Empleado.celular;
@@ -93,9 +97,9 @@ exports.updateEmpleado2 = {
 
         Empleado.save(function(err, Empleado){
           if (err) {
-            reply("error 2... :(");
+            return res("error 2... :(");
           }
-          reply(Empleado);
+          return res(Empleado);
         });
       }
     });

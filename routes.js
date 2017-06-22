@@ -5,7 +5,7 @@ var authController = require('./controllers/authController');
 exports.endpoints = [{method: 'GET', path: '/', config: {handler: function(request, reply){reply('API Cafe, Cafe')}}},
 	{method: 'POST', path: '/cafe/creatempleado', config: empleadoController.createEmpleado},
 	{method: 'GET', path: '/cafe/empleado/{username}', config: empleadoController.getEmpleado},
-  {method: 'GET', path: '/cafe/updatempleado/{username}', config: empleadoController.updateEmpleado2},
+  {method: 'PUT', path: '/cafe/updatempleado/{username}', config: empleadoController.updateEmpleado2},
 	{method: 'DELETE', path: '/cafe/deletempleado/{username}', config: empleadoController.deleteEmpleado},
 	{method: 'GET', path: '/cafe/empleados', config: empleadoController.getAllEmpleado},
 	{method: 'POST', path: '/cafe/login', config: authController.login},
