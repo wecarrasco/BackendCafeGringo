@@ -46,7 +46,6 @@ exports.getEmpleado = {
 exports.updateEmpleado = {
   handler: function(request, reply){
     empleado.update({username: request.params.username},
-      {$set:
         {
           Nombre: request.payload.Nombre,
           celular: request.payload.celular,
@@ -58,15 +57,16 @@ exports.updateEmpleado = {
           hrIn: request.payload.hrIn,
           hrOut: request.payload.hrOut,
           scope: request.payload.scope,
-        }
-      }, function(err){
-        if(err){
-          return reply(boom.wrap(err, 'Empleado no encontrado'));
-        }else{
-          return reply('Actualizado con exito!!');
-        }
-      }
-    );
+        }).exec();
+      //   ,
+      // // function(err){
+      // //   if(err){
+      // //     return reply(boom.wrap(err, 'Empleado no encontrado'));
+      // //   }else{
+      // //     return reply('Actualizado con exito!!');
+      // //   }
+      // // }
+    // );
   }
 }
 
