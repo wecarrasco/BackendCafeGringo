@@ -99,7 +99,7 @@ exports.updateEmpleado2 = {
           if (err) {
             return res("error 2... :(");
           }
-          return res(Empleado);
+          return res({Empleado: Empleado, success:true});
         });
       }
     });
