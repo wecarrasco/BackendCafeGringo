@@ -98,8 +98,10 @@ exports.updateEmpleado2 = {
         Empleado.save(function(err, Empleado){
           if (err) {
             return res("error 2... :(");
+          }else{
+            return res({Empleado: Empleado, success:true});
           }
-          return res({Empleado: Empleado, success:true});
+
         });
       }
     });
