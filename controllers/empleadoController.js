@@ -278,10 +278,13 @@ exports.gethoras ={
             }
 
             if (mandarEntrada && !mandarSalida) {
+              console.log("horaEntrada: "+horaEntrada);
               return res({empleado: Empleado, message:"sale", horaEntrada: horaEntrada, horaSalida:"nada"});
             }else if (mandarEntrada && mandarSalida) {
+              console.log("horaEntrada: "+horaEntrada+" horaSalida: "+horaSalida);
               return res({empleado: Empleado, message:"YaSalio", horaEntrada: horaEntrada, horaSalida:horaSalida});
             }else if (!mandarEntrada && !mandarSalida) {
+              console.log("No hay hora entrada y salida");
               return res({empleado: Empleado, message:"entra", horaEntrada: "nada", horaSalida:"nada"});
             }
           }
