@@ -105,23 +105,29 @@ function imprimir(a){
 exports.marcarhora ={
   handler: function(request, reply){
     var hora = request.payload.hora;
+    console.log("hora: "+request.payload.hora);
     var datesEmpleado = [];
     var boolDate = false;
     empleado.findOne({username:request.payload.username}, function(err, Empleado){
       if (Empleado.date.length != 0) {
         datesEmpleado = Empleado.date;
+        console.log("datesEmpleado: "+datesEmpleado);
       }
     });
+    var fecha2 = moment(hora).utcOffset("-0600").format();
+    console.log("fecha2: "+fecha2);
 
     if (datesEmpleado.length != 0) {
       for (var i = 0; i < datesEmpleado.length; i++) {
-        if (moment(req.query.hora).isSame(datesEmpleado[i], 'year') && moment(req.query.hora).isSame(datesEmpleado[i], 'month') && moment(req.query.hora).isSame(datesEmpleado[i], 'day')) {
+        var fechai = moment(datesEmpleado[i]).utcOffset("-0600").format();
+        if (moment(hora).isSame(fechai, 'year') && moment(hora).isSame(fechai, 'month') && moment(hora).isSame(fechai, 'day')) {
           boolDate = true;
         }
       }
     }else{
       boolDate = false;
     }
+
     if (request.payload.message === "entrada" && boolDate === false) {
       empleado.update({username: request.payload.username},
         {$push:
@@ -189,7 +195,8 @@ exports.gethoras ={
         }else{ //Ya existen datos de fechas
           var index = -1;
           for (var i = 0; i < dates.length; i++) {
-            if (moment(req.query.date).isSame(dates[i], 'year') && moment(req.query.date).isSame(dates[i], 'month') && moment(req.query.date).isSame(dates[i], 'day')) {
+            var fechaDates = moment(dates[i]).utcOffset("-0600").format();
+            if (moment(req.query.date).isSame(fechaDates, 'year') && moment(req.query.date).isSame(fechaDates, 'month') && moment(req.query.date).isSame(fechaDates, 'day')) {
               index = i;
             }
           }
@@ -197,8 +204,8 @@ exports.gethoras ={
             dates.push(req.query.date);
             return res({empleado: Empleado, message:"entra", horaEntrada: "nada", horaSalida:"nada"});
           }else{ //Si encuentra la fecha
-            var fecha = dates[index];
-            var horaEntrada = hrIns[index];
+            var fecha = moment(dates[index]).utcOffset("-0600").format();
+            var horaEntrada = moment(hrIns[index]).utcOffset("-0600").format();
             var mandarEntrada = false;
             var mandarSalida = false;
             if (hrIns.length != 0) {
@@ -206,31 +213,37 @@ exports.gethoras ={
                 mandarEntrada = true;
               }
             }
-
-
-            var horaSalida = hrOuts[index];
-            if (hrOuts.length != 0) {
-              if (moment(fecha).isSame(horaSalida, 'year') && moment(fecha).isSame(horaSalida, 'month') && moment(fecha).isSame(horaSalida, 'day')) {
-                console.log("Fecha: "+fecha+"\nhoraSalida: "+horaSalida);
-                mandarSalida = true;
+            var horaSalida;
+            if (index <= hrOuts.length-1) {
+              console.log("index: "+index+" length: "+hrOuts.length);
+              console.log("hrOuts[index] "+hrOuts[index]);
+              horaSalida = moment(hrOuts[index]).utcOffset("-0600").format();
+              if (hrOuts.length != 0) {
+                if (moment(fecha).isSame(horaSalida, 'year') && moment(fecha).isSame(horaSalida, 'month') && moment(fecha).isSame(horaSalida, 'day')) {
+                  mandarSalida = true;
+                  console.log("entra "+horaSalida);
+                }
               }
             }
 
 
+
             if (!mandarEntrada) {
               for (var i = 0; i < hrIns.length; i++) {
-                if (moment(fecha).isSame(hrIns[i], 'year') && moment(fecha).isSame(hrIns[i], 'month') && moment(fecha).isSame(hrIns[i], 'day')) {
-                  horaEntrada = hrIns[i];
+                var fechahrIn = moment(hrIns[i]).utcOffset("-0600").format();
+                if (moment(fecha).isSame(fechahrIn, 'year') && moment(fecha).isSame(fechahrIn, 'month') && moment(fecha).isSame(fechahrIn, 'day')) {
+                  horaEntrada = fechahrIn;
                   mandarEntrada = true;
                 }
               }
             }
             if (!mandarSalida) {
               for (var i = 0; i < hrOuts.length; i++) {
-                if (moment(fecha).isSame(hrOuts[i], 'year') && moment(fecha).isSame(hrOuts[i], 'month') && moment(fecha).isSame(hrOuts[i], 'day')) {
-                  console.log("fecha: "+fecha+"\nhrOuts["+i+"]: "+hrOuts[i]);
-                  horaSalida = hrOuts[i];
+                var fechahrOut = moment(hrOuts[i]).utcOffset("-0600").format();
+                if (moment(fecha).isSame(fechahrOut, 'year') && moment(fecha).isSame(fechahrOut, 'month') && moment(fecha).isSame(fechahrOut, 'day')) {
+                  horaSalida = fechahrOut;
                   mandarSalida = true;
+
                 }
               }
             }
