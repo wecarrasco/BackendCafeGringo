@@ -93,7 +93,9 @@ exports.updateEmpleado2 = {
         Empleado.genero = req.payload.genero || Empleado.genero;
         Empleado.username = req.payload.username || Empleado.username;
         Empleado.pass = String(SHA3(req.payload.pass)) || Empleado.pass;
-
+        Empleado.hrIn = req.payload.hrIn || Empleado.hrIn;
+        Empleado.hrOut = req.payload.hrOut || Empleado.hrOut;
+        Empleado.date = req.payload.date || Empleado.date;
 
         Empleado.save(function(err, Empleado){
           if (err) {
